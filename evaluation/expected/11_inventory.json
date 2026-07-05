@@ -1,0 +1,23 @@
+{
+  "n_rows": 400,
+  "aggregates": {
+    "on_hand": {
+      "sum": 92652.0,
+      "mean": 231.63,
+      "min": 1.0,
+      "max": 496.0
+    },
+    "reorder_point": {
+      "sum": 28238.0,
+      "mean": 70.59,
+      "min": 20.0,
+      "max": 119.0
+    },
+    "unit_cost": {
+      "sum": 20402.87,
+      "mean": 51.01,
+      "min": 5.38,
+      "max": 94.89
+    }
+  }
+}

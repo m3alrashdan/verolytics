@@ -1,0 +1,11 @@
+{
+  "n_rows": 500,
+  "aggregates": {
+    "temperature": {
+      "sum": 10905.27,
+      "mean": 21.81,
+      "min": -40.0,
+      "max": 95.0
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "n_rows": 1000,
+  "aggregates": {
+    "lifetime_value": {
+      "sum": 1865757.74,
+      "mean": 2028.0,
+      "min": 4.15,
+      "max": 3995.49
+    },
+    "orders": {
+      "sum": 25627.0,
+      "mean": 25.63,
+      "min": 1.0,
+      "max": 49.0
+    }
+  }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<title>{{ report.title }}</title>
+{% if not for_pdf %}<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>{% endif %}
+<style>{{ css }}</style>
+</head>
+<body class="rtl">
+<header>
+  <h1>{{ report.title }}</h1>
+  <p class="meta">تحليل آلي &middot; تم التحقق من كل رقم مقابل الكود المنفَّذ
+    {% if report.verification.redacted %}<span class="warn-badge">تم حجب أرقام تعذّر التحقق منها</span>{% endif %}
+  </p>
+</header>
+
+<section>
+  <h2>الملخص التنفيذي</h2>
+  <p>{{ report.executive_summary }}</p>
+</section>
+
+{% if report.kpis %}
+<section>
+  <h2>المؤشرات الرئيسية</h2>
+  <div class="kpi-grid">
+    {% for kpi in report.kpis %}
+    <div class="kpi-card">
+      <div class="kpi-value">{{ kpi.value }}</div>
+      <div class="kpi-label">{{ kpi.label }}</div>
+      {% if kpi.change %}<div class="kpi-change {{ kpi.change_direction or 'flat' }}">{{ kpi.change }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if report.findings %}
+<section>
+  <h2>أبرز النتائج</h2>
+  {% for f in report.findings %}
+  <article class="finding">
+    <h3>{{ loop.index }}. {{ f.title }}</h3>
+    {% if f.chart_name and charts.get(f.chart_name) %}
+    <div class="chart">{{ charts[f.chart_name] | safe }}</div>
+    {% endif %}
+    <p>{{ f.narrative }}</p>
+    {% if f.code and not for_pdf %}
+    <details><summary>عرض الكود الذي أنتج هذه النتيجة</summary><pre dir="ltr">{{ f.code }}</pre></details>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+<section>
+  <h2>سجل التنظيف وجودة البيانات</h2>
+  {% if report.data_quality_notes %}<p>{{ report.data_quality_notes }}</p>{% endif %}
+  {% if report.cleaning_log %}
+  <table class="clean-log">
+    <thead><tr><th>الإجراء</th><th>العمود</th><th>قبل</th><th>بعد</th><th>المبرر</th></tr></thead>
+    <tbody>
+    {% for e in report.cleaning_log %}
+      <tr><td>{{ e.action }}</td><td>{{ e.column or "—" }}</td>
+          <td>{{ e.before_count if e.before_count is not none else "—" }}</td>
+          <td>{{ e.after_count if e.after_count is not none else "—" }}</td>
+          <td>{{ e.justification }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}<p>لم تكن هناك حاجة لأي إجراءات تنظيف.</p>{% endif %}
+</section>
+
+{% if report.forecast %}
+<section>
+  <h2>التنبؤ</h2>
+  {% if report.forecast.chart_name and charts.get(report.forecast.chart_name) %}
+  <div class="chart">{{ charts[report.forecast.chart_name] | safe }}</div>
+  {% endif %}
+  <p>{{ report.forecast.narrative }}</p>
+  <p class="forecast-meta">
+    {% if report.forecast.model_name %}النموذج: <strong>{{ report.forecast.model_name }}</strong> &middot; {% endif %}
+    {% if report.forecast.mape is not none %}متوسط الخطأ النسبي (MAPE): <strong>{{ report.forecast.mape }}%</strong>{% endif %}
+  </p>
+  <p class="reliability">{{ report.forecast.reliability_statement }}</p>
+</section>
+{% endif %}
+
+{% if report.recommendations %}
+<section>
+  <h2>التوصيات</h2>
+  <ol class="recommendations">
+    {% for r in report.recommendations %}<li>{{ r }}</li>{% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+<footer>
+  <p>الأرقام المفحوصة: {{ report.verification.checked }} &middot; المطابقة: {{ report.verification.matched }}.
+  تقرير من وكيل محلل البيانات — جميع الأرقام محسوبة ببايثون داخل بيئة معزولة، وليس بواسطة نموذج اللغة.</p>
+</footer>
+</body>
+</html>

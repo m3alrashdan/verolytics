@@ -1,0 +1,241 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Verolytics — "Aurora" design tokens (dc2).
+   Deep night canvas with violet · cyan · magenta aurora glows.
+   Dark is the reference; light is a bright variant of the same hues.
+   Two token namespaces share the same values:
+     --nx-*  → consumed by tailwind.config semantic classes
+     raw     → (--bg, --violet, --grad-aurora …) used directly in markup
+   ============================================================ */
+:root {
+  /* fonts + radii (shared) */
+  --font-display: "Space Grotesk", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --r-card: 18px; --r-md: 12px; --r-pill: 999px;
+
+  /* ---- light theme (raw dc2 tokens) ---- */
+  --bg: #f5f5fb; --bg-1: #ffffff; --bg-2: #ffffff; --bg-3: #f0f0f8;
+  --bar: rgba(248, 248, 253, 0.78);
+  --line: rgba(18, 18, 45, 0.09); --line-strong: rgba(18, 18, 45, 0.16);
+  --fg: #13131d; --fg-1: #54546a; --fg-2: #86869a;
+  --violet: #7c3aed; --violet-ink: #6d28d9;
+  --cyan: #0891b2; --cyan-ink: #0e7490; --magenta: #c026d3;
+  --verified: #0d9b73; --verified-ink: #047857;
+  --verified-bg: rgba(13, 155, 115, 0.1); --verified-line: rgba(13, 155, 115, 0.28);
+  --warn: #b45309; --warn-ink: #92400e; --danger: #e11d48; --ring: #7c3aed;
+  --warn-bg: rgba(180, 83, 9, 0.09); --warn-line: rgba(180, 83, 9, 0.24);
+  --cyan-icon-bg: rgba(8, 145, 178, 0.1); --magenta-icon-bg: rgba(192, 38, 211, 0.1);
+  --vp-icon-bg: rgba(124, 58, 237, 0.1);
+  --danger-bg: rgba(225, 29, 72, 0.08); --danger-line: rgba(225, 29, 72, 0.22);
+  --grad-aurora: linear-gradient(120deg, #7c3aed, #0891b2 56%, #c026d3);
+  --glow-violet: rgba(124, 58, 237, 0.16); --glow-cyan: rgba(8, 145, 178, 0.12); --glow-magenta: rgba(192, 38, 211, 0.1);
+  --code-bg: #0e0e1a; --grid: rgba(18, 18, 45, 0.05);
+  --shadow: 0 1px 2px rgba(18, 18, 45, 0.06), 0 18px 40px -20px rgba(18, 18, 45, 0.22);
+  --glow-mul: 1;
+
+  /* ---- nx-* aliases consumed by tailwind ---- */
+  --nx-bg: var(--bg); --nx-fg: var(--fg); --nx-muted: var(--fg-1); --nx-dim: var(--fg-2);
+  --nx-surface: #ffffff; --nx-surface-solid: #ffffff; --nx-card: #ffffff; --nx-raised: #ffffff;
+  --nx-line: var(--line); --nx-line-strong: var(--line-strong);
+  --nx-accent: var(--violet); --nx-accent-strong: #6d28d9;
+  --nx-accent-soft: rgba(124, 58, 237, 0.1); --nx-accent-line: rgba(124, 58, 237, 0.24);
+  --nx-glow-1: var(--glow-violet); --nx-glow-2: var(--glow-cyan); --nx-grid: var(--grid);
+  --nx-shadow: var(--shadow); --nx-nav: var(--bar);
+}
+
+.dark {
+  --bg: #07070e; --bg-1: #0d0d17; --bg-2: #15151f; --bg-3: #1c1c28;
+  --bar: rgba(8, 8, 16, 0.66);
+  --line: rgba(255, 255, 255, 0.08); --line-strong: rgba(255, 255, 255, 0.15);
+  --fg: #f3f3f8; --fg-1: #b3b3c4; --fg-2: #7a7a8e;
+  --violet: #8b5cf6; --violet-ink: #a78bfa;
+  --cyan: #22d3ee; --cyan-ink: #67e8f9; --magenta: #e879f9;
+  --verified: #2dd4a7; --verified-ink: #34e2b4;
+  --verified-bg: rgba(45, 212, 167, 0.13); --verified-line: rgba(45, 212, 167, 0.32);
+  --warn: #fbbf24; --warn-ink: #fcd34d; --danger: #fb7185; --ring: #8b5cf6;
+  --warn-bg: rgba(251, 191, 36, 0.1); --warn-line: rgba(251, 191, 36, 0.28);
+  --cyan-icon-bg: rgba(34, 211, 238, 0.14); --magenta-icon-bg: rgba(232, 121, 249, 0.14);
+  --vp-icon-bg: rgba(139, 92, 246, 0.15);
+  --danger-bg: rgba(251, 113, 133, 0.12); --danger-line: rgba(251, 113, 133, 0.3);
+  --grad-aurora: linear-gradient(120deg, #8b5cf6, #22d3ee 56%, #e879f9);
+  --glow-violet: rgba(139, 92, 246, 0.3); --glow-cyan: rgba(34, 211, 238, 0.22); --glow-magenta: rgba(232, 121, 249, 0.16);
+  --code-bg: #0a0a12; --grid: rgba(255, 255, 255, 0.04);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 50px -24px rgba(0, 0, 0, 0.8);
+
+  --nx-surface: rgba(255, 255, 255, 0.04); --nx-surface-solid: #15151f;
+  --nx-card: #0d0d17; --nx-raised: #15151f;
+  --nx-accent: var(--violet); --nx-accent-strong: #7c3aed;
+  --nx-accent-soft: rgba(139, 92, 246, 0.16); --nx-accent-line: rgba(139, 92, 246, 0.32);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  @apply bg-bg text-fg antialiased;
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum";
+  line-height: 1.6;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: rgba(139, 92, 246, 0.34); color: inherit; }
+
+/* ambient backdrop: drifting violet · cyan aurora orbs over radial wash */
+.nx-backdrop {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 15% 0%, var(--glow-violet), transparent 70%),
+    radial-gradient(50% 45% at 100% 8%, var(--glow-cyan), transparent 70%),
+    radial-gradient(45% 40% at 85% 100%, var(--glow-magenta), transparent 70%);
+}
+.nx-backdrop::before,
+.nx-backdrop::after {
+  content: ""; position: absolute; border-radius: 50%;
+  filter: blur(42px);
+  opacity: calc(var(--glow-mul, 1) * 0.85);
+  animation: auroraDrift 26s ease-in-out infinite;
+}
+.nx-backdrop::before {
+  top: -12vh; inset-inline-start: -6vw;
+  width: 46vw; height: 46vw; max-width: 680px; max-height: 680px;
+  background: radial-gradient(circle at 40% 40%, var(--glow-violet), transparent 62%);
+}
+.nx-backdrop::after {
+  bottom: -18vh; inset-inline-end: -8vw;
+  width: 42vw; height: 42vw; max-width: 620px; max-height: 620px;
+  background: radial-gradient(circle at 50% 50%, var(--glow-cyan), transparent 62%);
+  animation-duration: 32s; animation-direction: reverse;
+}
+.nx-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000, transparent 78%);
+  mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000, transparent 78%);
+}
+
+/* ---- surfaces ---- */
+.card {
+  background: var(--nx-card);
+  border: 1px solid var(--nx-line);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+}
+.card-raised {
+  background: var(--nx-raised);
+  border: 1px solid var(--nx-line-strong);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+}
+.glass {
+  background: var(--bar);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+}
+
+/* ---- type helpers ---- */
+.font-heading {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+:lang(ar) .font-heading, [dir="rtl"] .font-heading {
+  font-family: "IBM Plex Sans Arabic", var(--font-display);
+}
+.kicker {
+  font-size: 12px; letter-spacing: 1.4px; text-transform: uppercase;
+  font-weight: 600; color: var(--violet-ink);
+}
+/* vibrant aurora gradient text */
+.grad-text {
+  background: var(--grad-aurora);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- controls ---- */
+.btn-grad {
+  background: var(--grad-aurora);
+  color: #fff;
+  box-shadow: 0 10px 30px -10px var(--glow-violet);
+  transition: filter 0.15s ease, transform 0.15s ease, box-shadow 0.25s ease;
+}
+.btn-grad:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn-grad:active { transform: translateY(0); }
+.pill {
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-2);
+  color: var(--fg);
+}
+.chip {
+  @apply cursor-pointer rounded-full px-3 py-1.5 text-xs font-medium transition;
+  border: 1px solid var(--nx-accent-line);
+  background: var(--nx-accent-soft);
+  color: var(--violet-ink);
+}
+.chip:hover { background: rgba(139, 92, 246, 0.18); }
+
+.skeleton {
+  @apply animate-pulse rounded-lg;
+  background: var(--line);
+}
+
+/* code surface — stays dark in both themes for legibility */
+.code-surface {
+  background: var(--code-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ddd6fe;
+  font-family: var(--font-mono);
+}
+
+/* typing indicator */
+.typing span {
+  @apply inline-block h-2 w-2 rounded-full;
+  background: var(--violet);
+  animation: typing 1.2s infinite ease-in-out;
+}
+.typing span:nth-child(2) { animation-delay: 0.15s; }
+.typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* confetti */
+.confetti-piece {
+  position: fixed; top: -12px; width: 9px; height: 14px; z-index: 60;
+  animation: confetti-fall 2.4s linear forwards;
+}
+@keyframes confetti-fall {
+  to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes auroraDrift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, 4%, 0) scale(1.1); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+@keyframes spinGlow { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  border-radius: 99px;
+  background: var(--line-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}

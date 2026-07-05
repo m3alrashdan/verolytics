@@ -1,0 +1,72 @@
+# Full stack: api + postgres + streamlit frontend.
+#
+# The sandbox image must be built once before starting:
+#   docker build -t data-analyst-sandbox:latest sandbox/
+#
+# The API talks to the host Docker daemon (mounted socket) to spawn the
+# per-execution sandbox containers. Because those containers are siblings,
+# the workspace volume must be a HOST path — hence WORKSPACES_HOST_DIR.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: analyst
+      POSTGRES_PASSWORD: analyst
+      POSTGRES_DB: analyst
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U analyst"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-sonnet-4-6}
+      DATABASE_URL: postgresql+psycopg2://analyst:analyst@db:5432/analyst
+      WORKSPACE_ROOT: /workspaces
+      SANDBOX_HOST_WORKSPACE_ROOT: ${WORKSPACES_HOST_DIR:-./workspaces}
+      SANDBOX_IMAGE: data-analyst-sandbox:latest
+    volumes:
+      - ${WORKSPACES_HOST_DIR:-./workspaces}:/workspaces
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # v2 web dashboard (Next.js) — the primary frontend
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+      args:
+        # the browser talks to the API directly; use the public API URL here
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  # legacy Streamlit MVP (kept for reference)
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      API_URL: http://api:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    profiles: ["legacy"]
+
+volumes:
+  pgdata:
